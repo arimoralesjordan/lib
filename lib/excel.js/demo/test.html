@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+		<script type="text/javascript" src="../dist/lodash.js"></script> 
+        <script type="text/javascript" src="../dist/jszip.min.js"></script>
+        <script type="text/javascript" src="../dist/excel-builder.dist.js"></script>
+    </head>
+    <body>
+        
+        <pre id="preview">
+        	<a href="#" id="downloader" download="sample.xlsx">Click me!</a>
+        </pre>
+        <script type="text/javascript">
+            var workbook = ExcelBuilder.Builder.createWorkbook();
+        	for(var i=0;i<3;i++){
+        		var worksheet = workbook.createWorksheet({ name: 'Test-'+i });
+        		var originalData = [
+                    ['Artist', 'Album', 'Price'],
+                    ['Buckethead', 'Albino Slug', 8.99],
+                    ['Buckethead', 'Electric Tears', 13.99],
+                    ['Buckethead', 'Colma', 11.34],
+                    ['Crystal Method', 'Vegas', 10.54],
+                    ['Crystal Method', 'Tweekend', 10.64],
+                    ['Crystal Method', 'Divided By Night', 8.99]
+                ];
+        		worksheet.setData(originalData);
+                workbook.addWorksheet(worksheet);
+        	}
+            ExcelBuilder.Builder.createFile(workbook).then(function(data){
+            	$("#downloader").attr({
+                    href: "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"+ data
+                });
+            });
+        </script>
+        
+    </body>
+</html>
